@@ -2,14 +2,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
-import { logarUsuario, deslogarUsuario } from "../../infra/usuario";
+import {criarConta } from "../../infra/usuario";
 import { regexEmail } from "../../util/regex";
 import { useNavigate } from "react-router-dom";
 
-export default function Login(props) {
+export default function CriarConta(props) {
   const navigate = useNavigate();
 
   const {
@@ -24,24 +22,23 @@ export default function Login(props) {
     console.log(data);
     const email = data.email;
     const senha = data.senha;
-    let usuario = await logarUsuario(email, senha);
-    if (usuario.id) {
-      props.setUsuario(usuario);
-      console.log(usuario);
-      console.log(props.usuario);
-      console.log(props.setUsuario);
-      navigate("/")
-    } else {
-      alert(usuario.erro);
+    const confirma = data.confirma
+    if (senha === confirma) {
+      let usuario = await criarConta(email, senha);
+      if (usuario.id) {
+        props.setUsuario(usuario);
+        navigate("/login");
+        alert(`SUCESSO, logado com ${usuario.email}`);
+      } else {
+        alert(`ERRO: ${usuario.erro}`);
+      }
+    }else{
+      alert(`ERRO: senhas incompativeis`);
+
     }
   }
 
-  async function handleClickLogout() {
-    let retorno = await deslogarUsuario();
-    props.setUsuario(retorno);
-  }
-
-  const telaLogin = (
+  const telaCriarConta = (
     <div
       style={{
         marginTop: "20vh",
@@ -66,7 +63,7 @@ export default function Login(props) {
               fontSize: "200%",
             }}
           >
-            Login
+            Criar Conta
           </h2>
           <br />
           <TextField
@@ -103,51 +100,26 @@ export default function Login(props) {
           />
           <br />
           <br />
+          <TextField
+            id="confirma"
+            label="confirma senha"
+            type="password"
+            autoComplete="current-password"
+            {...register("confirma", {
+              required: "Senha é obrigatório",
+            })}
+            error={!!errors.senha}
+            helperText={errors.senha ? errors.senha.message : ""}
+          />
+          <br />
+          <br />
           <Button variant="contained" size="medium" type="submit">
-            Login
+            Criar Conta
           </Button>
         </form>
       </Container>
     </div>
   );
 
-  //   const TelaLogado = (
-  //     <div>
-  //       <CssBaseline />
-  //       <Container
-  //         maxWidth="sm"
-  //         sx={{
-  //           width: "25vw",
-  //           minWidth: "320px",
-  //           padding: "20px",
-  //           boxShadow: "7px 7px 21px",
-  //           borderRadius: "7px",
-  //         }}
-  //       >
-  //         <form >
-  //           <h2
-  //             style={{
-  //               textAlign: "left",
-  //               fontWeight: "bold",
-  //               fontSize: "200%",
-  //             }}
-  //           >
-  //             Logado
-  //           </h2>
-  //           <Stack sx={{ width: "100%" }} spacing={2}>
-  //             <Alert severity="success">
-  //               Logado com sucesso como {props.usuario.email}.
-  //             </Alert>
-  //           </Stack>
-  //           <br />
-
-  //           <Button variant="contained" size="medium" onClick={handleClickLogout}>
-  //             LogOut
-  //           </Button>
-  //         </form>
-  //       </Container>
-  //     </div>
-  //   );
-  //   return props.usuario.id ? TelaLogado : telaLogin;
-  return telaLogin;
+  return telaCriarConta;
 }

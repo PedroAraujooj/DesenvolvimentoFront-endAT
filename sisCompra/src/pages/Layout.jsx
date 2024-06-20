@@ -1,23 +1,38 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import BarraLogin from "../components/login/BarraLogin";
+import { deslogarUsuario } from "../infra/usuario";
+ import { makeStyles } from '@mui/styles';
 
-export default function Layout() {
+ const useStyles = makeStyles ({
+   liStyle: {
+     color: 'white',
+     textDecoration: 'none',
+    marginRight: '35px',
+     transition: 'all 0.4s ease-in-out',
+     '&:hover': {
+       color: '#c8cfe0',
+     },
+   },
+ });
+
+export default function Layout(props) {
   //const [usuario, setUsuario] = useState("");
-    const [usuario, setUsuario] = useState({id:"", email:"", senha:""});
+    const {usuario, setUsuario} = props;
+    const classes = useStyles();
+        
+    const navigate = useNavigate();
 
-    const liStyle = {
-      color: "white",
-      textDecoration: 'none',
-      marginRight: "35px"
+
+    async function logout(){
+      let retorno = await deslogarUsuario();
+        setUsuario(retorno);
+        navigate('/');
     }
-  return (
-    // <div style={{ position: "absolute", left: "10px", top: "10px" }}>
-    //     <BarraLogin usuario={usuario} setUsuario = {setUsuario} />
-    // {usuario.id &&  
+
+    const telaLogado = (
       <div style={{
         height: "100%",
-        margin: " auto auto"
       }}>
         <nav style={{
             width: "100vw",
@@ -30,7 +45,7 @@ export default function Layout() {
           <h1 style={{
               color: "white",
               fontSize: "42px",
-              margin: "auto 0 auto 0"
+              margin: "auto 0 auto 14px"
             }}>
                 SisCompra
           </h1>
@@ -43,25 +58,63 @@ export default function Layout() {
             textDecoration: 'none'
         }}>
             <li>
-              <Link to={"/"} style = {liStyle}>Início</Link>
+              <Link to={"/"} className = {classes.liStyle}>Início</Link>
             </li>
             <li>
-              <Link to={"/fornecedores"} style = {liStyle}>Fornecedores</Link>
+              <Link to={"/fornecedores"} className = {classes.liStyle}>Fornecedores</Link>
             </li>
             <li>
-              <Link to={"/contatos"} style = {liStyle}>Contatos</Link>
+              <Link to={"/contatos"} className = {classes.liStyle}>Contatos</Link>
             </li>
             <li>
-              <Link to={"/produtos"} style = {liStyle}>Produtos</Link>
+              <Link to={"/produtos"} className = {classes.liStyle}>Produtos e Cotações</Link>
             </li>
             <li>
-              <Link to={"/cotacoes"} style = {liStyle}>Cotações</Link>
+              <p style={{textDecoration : "underline"}} className = {classes.liStyle} onClick={logout}>LOGOUT</p>
             </li> 
           </ul>
         </nav>
         <Outlet />
       </div>
-    // }
-    //</div>
-  );
+    );
+
+    const telaLogin = (
+      <div style={{
+        height: "100%",
+      }}>
+        <nav style={{
+            width: "100vw",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: "#455cf5",
+            height: "70px",
+        }}>
+          <h1 style={{
+              color: "white",
+              fontSize: "42px",
+              margin: "auto 0 auto 14px"
+            }}>
+                SisCompra
+          </h1>
+          <ul style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            listStyle: "none",
+            backgroundColor: "#455cf5",
+            textDecoration: 'none'
+        }}>
+            <li>
+              <Link to={"/login"} className = {classes.liStyle}>Login</Link>
+            </li>
+            <li>
+              <Link to={"/criarConta"} className = {classes.liStyle}>Criar Conta</Link>
+            </li>
+          </ul>
+        </nav>
+        <Outlet />
+      </div>
+    );
+  return usuario.id? telaLogado : telaLogin;
 }
