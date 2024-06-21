@@ -67,7 +67,7 @@ export default function Layout(props) {
               <Link to={"/contatos"} className = {classes.liStyle}>Contatos</Link>
             </li>
             <li>
-              <Link to={"/produtos"} className = {classes.liStyle}>Produtos e Cotações</Link>
+              <Link to={"/produtos"} className = {classes.liStyle}>Produtos</Link>
             </li>
             <li>
               <p style={{textDecoration : "underline"}} className = {classes.liStyle} onClick={logout}>LOGOUT</p>

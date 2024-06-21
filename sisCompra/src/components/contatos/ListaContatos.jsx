@@ -1,6 +1,33 @@
 import DataTable from 'react-data-table-component';
+import { obterFornecedor } from '../fornecedores/fornecedores';
+import { useEffect, useState } from 'react';
 
 export default function ListaContatos({ contatos = [], setIdEmEdicao }) {
+    const [novosContatos, setNovosContatos] = useState([]);
+
+    useEffect(() => {
+        async function trataContatos() {
+            const contatosAtualizados = await Promise.all(
+                contatos.map(async (contato) => {
+                    if(contato.fornecedor){
+                        const nomeFornecedor = await obterFornecedor(contato.fornecedor);
+                        return { ...contato, nomeFornecedor: nomeFornecedor.nome };  
+                    }
+                    else{
+                        return { ...contato, nomeFornecedor: "" };
+                    }
+                    
+                })
+            );
+            setNovosContatos(contatosAtualizados);
+        }
+        trataContatos();
+    }, [contatos]);
+
+    useEffect(() => {
+        console.log(novosContatos);
+    }, [novosContatos]);
+
     const colunas = [
         {
             name: 'Nome',
@@ -14,6 +41,10 @@ export default function ListaContatos({ contatos = [], setIdEmEdicao }) {
         {
             name: 'Telefone',
             selector: row => row.fone,
+        },
+        {
+            name: 'Fornecedor',
+            selector: row => row.nomeFornecedor,
         },
     ];
 
@@ -32,7 +63,7 @@ export default function ListaContatos({ contatos = [], setIdEmEdicao }) {
     return (
         <DataTable
             columns={colunas}
-            data={contatos}
+            data={novosContatos}
             pagination
             paginationPerPage={5}
             dense

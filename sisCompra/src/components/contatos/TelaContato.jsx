@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react';
 import FormContato from './FormContato'
 import ListaContatos from './ListaContatos'
 import { listarContatos } from './contatos';
+import { useNavigate } from 'react-router-dom';
 
-export default function Componente9(){
+export default function TelaContato(props){
+
+  const navigate = useNavigate();
+
+    if(!props.usuario.id){
+        navigate("/login");
+    }
     const [contatos, setContatos] = useState([]);
     const [idEmEdicao, setIdEmEdicao] = useState("");
 
