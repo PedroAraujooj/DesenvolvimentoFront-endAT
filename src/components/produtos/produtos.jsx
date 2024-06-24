@@ -19,7 +19,7 @@ export async function listarProdutos() {
 export async function obterProduto(id) {
     const docRef = doc(db, "produtos", id);
     const docSnap = await getDoc(docRef);
-    return docSnap.data();
+    return {...docSnap.data(), id: doc.id};
 }
 
 export async function excluirProduto(id) {

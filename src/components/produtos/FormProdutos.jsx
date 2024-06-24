@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { Button, Container, CssBaseline, TextField } from "@mui/material";
-import { alterarProduto, excluirProduto, inserirProduto, obterProduto } from "./produtos";
+import {  alterarProduto, excluirProduto, inserirProduto, obterProduto } from "./produtos";
 
 
 export default function FormProdutos({ idEmEdicao, setIdEmEdicao }) {

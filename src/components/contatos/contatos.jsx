@@ -19,7 +19,7 @@ export async function listarContatos() {
 export async function obterContato(id) {
     const docRef = doc(db, "contatos", id);
     const docSnap = await getDoc(docRef);
-    return docSnap.data();
+    return {...docSnap.data(), id: doc.id};
 }
 
 export async function excluirContato(id) {
