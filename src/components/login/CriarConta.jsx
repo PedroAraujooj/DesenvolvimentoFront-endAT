@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import {criarConta } from "../../infra/usuario";
 import { regexEmail } from "../../util/regex";
 import { useNavigate } from "react-router-dom";
+import { cepIsValido } from "../../infra/cep";
 
 export default function CriarConta(props) {
   const navigate = useNavigate();
@@ -22,8 +23,13 @@ export default function CriarConta(props) {
     console.log(data);
     const email = data.email;
     const senha = data.senha;
-    const confirma = data.confirma
-    if (senha === confirma) {
+    const confirma = data.confirma;
+    const cep = data.cep;
+    const cepValido = await cepIsValido(cep);
+    if(!cepValido){
+      alert(`CEP inválido!`)
+    }
+    else if (senha === confirma) {
       let usuario = await criarConta(email, senha);
       if (usuario.id) {
         props.setUsuario(usuario);
@@ -84,6 +90,18 @@ export default function CriarConta(props) {
             })}
             error={!!errors.email}
             helperText={errors.email ? errors.email.message : ""}
+          />
+          <br />
+          <br />
+          <TextField
+            id="cep"
+            label="CEP"
+            variant="outlined"
+            {...register("cep", {
+              required: "CEP é obrigatório",
+            })}
+            error={!!errors.cep}
+            helperText={errors.cep ? errors.cep.message : ""}
           />
           <br />
           <br />
