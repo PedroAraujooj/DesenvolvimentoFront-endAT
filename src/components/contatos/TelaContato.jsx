@@ -1,16 +1,21 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import FormContato from './FormContato'
 import ListaContatos from './ListaContatos'
 import { listarContatos } from './contatos';
 import { useNavigate } from 'react-router-dom';
+import {UserContext} from "../../App.jsx";
 
 export default function TelaContato(props){
 
   const navigate = useNavigate();
 
-    if(!props.usuario.id){
-        navigate("/login");
+    const {usuario} = useContext(UserContext);
+
+
+    if (!usuario.isADM) {
+        navigate("/");
     }
+
     const [contatos, setContatos] = useState([]);
     const [idEmEdicao, setIdEmEdicao] = useState("");
 

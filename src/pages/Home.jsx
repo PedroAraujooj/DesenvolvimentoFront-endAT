@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import {useContext} from "react";
+import {UserContext} from "../App.jsx";
 
 export default function Home(props) {
     const navigate = useNavigate();
+    const {usuario} = useContext(UserContext);
 
-    if(!props.usuario.id){
+
+    if(!usuario.id){
         navigate("/login");
     }
 

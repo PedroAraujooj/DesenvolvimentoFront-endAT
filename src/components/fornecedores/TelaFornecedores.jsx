@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {  listarFornecedores } from './fornecedores';
 import FormFornecedores from './FormFornecedores';
 import ListaFornecedores from './ListaFornecedores';
 import { useNavigate } from 'react-router-dom';
+import {UserContext} from "../../App.jsx";
 
 export default function TelaFornecedores(props){
+    const {usuario} = useContext(UserContext);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    if(!props.usuario.id){
-        navigate("/login");
+    if (!usuario.isADM) {
+        navigate("/");
     }
     const [fornecedores, setFornecedores] = useState([]);
     const [idEmEdicao, setIdEmEdicao] = useState("");

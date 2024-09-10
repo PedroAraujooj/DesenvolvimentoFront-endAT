@@ -19,7 +19,7 @@ export async function listarCotacoes() {
 export async function obterCotacao(id) {
     const docRef = doc(db, "cotacoes", id);
     const docSnap = await getDoc(docRef);
-    return {...docSnap.data(), id: doc.id};
+    return {...docSnap.data(), id: docRef.id};
 }
 
 export async function excluirCotacao(id) {

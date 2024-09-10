@@ -10,6 +10,8 @@ import { cepIsValido } from "../../infra/cep";
 
 export default function CriarConta(props) {
   const navigate = useNavigate();
+  const {usuario, setUsuario} = useContext(UserContext);
+
 
   const {
     register,
@@ -32,7 +34,7 @@ export default function CriarConta(props) {
     else if (senha === confirma) {
       let usuario = await criarConta(email, senha);
       if (usuario.id) {
-        props.setUsuario(usuario);
+        setUsuario(usuario);
         navigate("/login");
         alert(`SUCESSO, logado com ${usuario.email}`);
       } else {

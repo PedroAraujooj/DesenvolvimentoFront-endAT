@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { listarCotacoes } from './cotacoes';
 import FormCotacao from './FormCotacao';
 import ListaCotacoes from './ListaCotacao';
+import {UserContext} from "../../App.jsx";
 
 export default function TelaCotacao(props){
+    const {usuario} = useContext(UserContext);
 
   const navigate = useNavigate();
 
-    if(!props.usuario.id){
-        navigate("/login");
+    if (!usuario.isADM) {
+        navigate("/");
     }
     const [cotacoes, setCotacoes] = useState([]);
     const [idEmEdicao, setIdEmEdicao] = useState("");
