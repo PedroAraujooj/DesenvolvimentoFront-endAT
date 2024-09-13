@@ -54,7 +54,7 @@ export default function FormRequisicao({ idEmEdicao, setIdEmEdicao }) {
     //  setIdEmEdicao("");
    // } else {
       let id = await inserirRequisicao({ ...dados, colaborador: usuario.id, dataHora: new Date().toLocaleString(),
-      status: "aberta", cotacoes: "0/3"});
+      status: "aberta", cotacoes: 0});
       setIdEmEdicao(id);
     //}
   }
@@ -97,6 +97,22 @@ export default function FormRequisicao({ idEmEdicao, setIdEmEdicao }) {
                 </MenuItem>
               ))}
             </Select>
+            <br/>
+            <TextField
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  marginBottom: "7px",
+                }}
+                id="descricao"
+                label="Descrição da requisição"
+                {...register("descricao", {
+                  required: "Descricao é obrigatória",
+                })}
+                error={!!errors.descricao}
+                helperText={errors.descricao ? errors.descricao.message : ""}
+            />
           </FormControl>
           <br />
           <Button variant="contained" size="medium" type="submit">

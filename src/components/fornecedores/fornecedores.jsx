@@ -19,7 +19,7 @@ export async function listarFornecedores() {
 export async function obterFornecedor(id) {
     const docRef = doc(db, "fornecedores", id);
     const docSnap = await getDoc(docRef);
-    return {...docSnap.data(), id: doc.id};
+    return {...docSnap.data(), id: docRef.id};
 }
 
 export async function excluirFornecedor(id) {

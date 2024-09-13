@@ -33,6 +33,10 @@ export default function ListaRequisicoes({ requisicoes = [], setIdEmEdicao }) {
       name: "Horario",
       selector: (row) => row.dataHora,
     },
+    {
+      name: "Descrição",
+      selector: (row) => row.descricao,
+    },
   ];
 
   const opcoes = {
