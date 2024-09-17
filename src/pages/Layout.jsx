@@ -173,13 +173,13 @@ export default function Layout(props) {
                         {!usuario.isADM?(
                             <li>
                                 <Link to={"/requisicoes"} className={classes.liStyle}>
-                                    Suas Requisicoe
+                                    Suas Requisições
                                 </Link>
                             </li>) : ""}
                         {usuario.isADM?(
                             <li>
                                 <Link to={"/requisicoesAdm"} className={classes.liStyle}>
-                                    Requisicoe
+                                    Requisições
                                 </Link>
                             </li>) : ""}
                         {usuario.isADM?(

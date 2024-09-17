@@ -12,12 +12,10 @@ import {
   TextField,
 } from "@mui/material";
 import { listarFornecedores } from "../fornecedores/fornecedores";
-import { listarProdutos } from "../produtos/produtos";
 import { alterarCotacao, excluirCotacao, inserirCotacao, obterCotacao } from "./cotacoes";
 
 export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
   const [fornecedores, setFornecedores] = useState([]);
-  const [produtos, setProdutos] = useState([]);
 
   const {
     register,
@@ -32,13 +30,12 @@ export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
       //Testa se o idEmEdicao está preenchido e veio da lista de contatos
       //Não foi pelo inserir
       carregarFornecedores();
-      carregarProdutos();
       if (idEmEdicao && !isSubmitted) {
         reset();
         const cotacao = await obterCotacao(idEmEdicao);
         setValue("preco", cotacao.preco);
+        console.log(cotacao.fornecedor);
         setValue("fornecedor", cotacao.fornecedor);
-        setValue("produto", cotacao.fornecedor);
       } else {
         reset();
       }
@@ -52,19 +49,14 @@ export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
     const listaRetorno = listaRetornoObj;
     setFornecedores(listaRetorno);
   }
-  async function carregarProdutos() {
-    const listaRetornoObj = await listarProdutos();
-    const listaRetorno = listaRetornoObj;
-    setProdutos(listaRetorno);
-  }
 
   async function submeterDados(dados) {
     if (idEmEdicao) {
-      await alterarCotacao({ ...dados, id: idEmEdicao });
+      let oldCot = await obterCotacao(idEmEdicao);
+      await alterarCotacao({ ...oldCot, fornecedor: dados.fornecedor, preco: dados.preco, id: idEmEdicao });
       setIdEmEdicao("");
     } else {
-      let id = await inserirCotacao(dados);
-      setIdEmEdicao(id);
+      alert("Não é possivel criar uma cotação, apenas altera-la")
     }
   }
 
@@ -87,7 +79,7 @@ export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
           marginBottom: "14px",
         }}
       >
-        <form onSubmit={handleSubmit(submeterDados)}>
+        <form >
           <TextField
             sx={{
               marginBottom: "7px",
@@ -118,7 +110,6 @@ export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
               id="fornecedor"
               label="Fornecedor"
               {...register("fornecedor", {
-                required: "fornecedor é obrigatório",
               })}
             >
               {fornecedores.map((fornecedor) => (
@@ -129,33 +120,14 @@ export default function FormCotacao({ idEmEdicao, setIdEmEdicao }) {
             </Select>
           </FormControl>
           <br />
-          <FormControl sx={{ width: "223px", marginBottom: "14px", paddingTop: "4px" }}>
-            <InputLabel id="produto-label" shrink={true}>
-              Produto
-            </InputLabel>
-            <Select
-              labelId="produto-label"
-              id="produto"
-              label="Produto"
-              {...register("produto", {
-                required: "Produto é obrigatório",
-              })}
-            >
-              {produtos.map((produto) => (
-                <MenuItem key={produto.id} value={produto.id}>
-                  {produto.nome}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <br />
-          <Button variant="contained" size="medium" type="submit">
+
+          <Button variant="contained" size="medium" type="button" onClick={handleSubmit(submeterDados)}>
             Salvar
           </Button>
           <Button
             variant="contained"
             size="medium"
-            type="submit"
+            type="button"
             color="error"
             onClick={handleExcluir}
           >

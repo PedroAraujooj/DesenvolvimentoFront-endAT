@@ -59,10 +59,7 @@ export default function FormRequisicao({ idEmEdicao, setIdEmEdicao }) {
     //}
   }
 
-  async function handleExcluir() {
-    await excluirRequisicao(idEmEdicao);
-    setIdEmEdicao("");
-  }
+
 
   return (
     <>
@@ -117,15 +114,6 @@ export default function FormRequisicao({ idEmEdicao, setIdEmEdicao }) {
           <br />
           <Button variant="contained" size="medium" type="submit">
             Salvar
-          </Button>
-          <Button
-            variant="contained"
-            size="medium"
-            type="submit"
-            color="error"
-            onClick={handleExcluir}
-          >
-            Excluir
           </Button>
         </form>
       </Container>
