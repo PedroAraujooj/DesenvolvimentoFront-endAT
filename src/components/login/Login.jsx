@@ -62,49 +62,51 @@ export default function Login(props) {
       >
         <form onSubmit={handleSubmit(handleClick)}>
           <h2
-            style={{
-              textAlign: "left",
-              fontWeight: "bold",
-              fontSize: "200%",
-            }}
+              style={{
+                textAlign: "left",
+                fontWeight: "bold",
+                fontSize: "200%",
+              }}
           >
             Login
           </h2>
-          <br />
+          <p>Login colaborador: machado@acl.org.br, senha: capitu</p>
+          <p>Login ADM: pedro@gmail.com, senha: 258348</p>
+          <br/>
           <TextField
-            id="email"
-            label="Email"
-            variant="outlined"
-            {...register("email", {
-              required: "Email é obrigatório",
-              validate: {
-                minLength: (value) =>
-                  value.length >= 5 ||
-                  "Email tem que ter pelo menos 5 caracteres",
-                maxLength: (value) =>
-                  value.length <= 30 || "Email só pode ter até 30 caracteres",
-                matchPattern: (value) =>
-                  regexEmail.test(value) || "Email inválido",
-              },
-            })}
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ""}
+              id="email"
+              label="Email"
+              variant="outlined"
+              {...register("email", {
+                required: "Email é obrigatório",
+                validate: {
+                  minLength: (value) =>
+                      value.length >= 5 ||
+                      "Email tem que ter pelo menos 5 caracteres",
+                  maxLength: (value) =>
+                      value.length <= 30 || "Email só pode ter até 30 caracteres",
+                  matchPattern: (value) =>
+                      regexEmail.test(value) || "Email inválido",
+                },
+              })}
+              error={!!errors.email}
+              helperText={errors.email ? errors.email.message : ""}
           />
-          <br />
-          <br />
+          <br/>
+          <br/>
           <TextField
-            id="senha"
-            label="senha"
-            type="password"
-            autoComplete="current-password"
-            {...register("senha", {
-              required: "Senha é obrigatório",
-            })}
-            error={!!errors.senha}
-            helperText={errors.senha ? errors.senha.message : ""}
+              id="senha"
+              label="senha"
+              type="password"
+              autoComplete="current-password"
+              {...register("senha", {
+                required: "Senha é obrigatório",
+              })}
+              error={!!errors.senha}
+              helperText={errors.senha ? errors.senha.message : ""}
           />
-          <br />
-          <br />
+          <br/>
+          <br/>
           <Button variant="contained" size="medium" type="submit">
             Login
           </Button>
