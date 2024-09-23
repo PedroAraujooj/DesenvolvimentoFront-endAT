@@ -48,7 +48,7 @@ export async function logarUsuario(email, senha) {
           .catch((error) => {
               retorno.erro = "Erro ao criar conta";
           });
-      await inserirUsuarios({...retorno, isADM: false}, retorno.id)
+      await inserirUsuarios({...retorno, isADM: false, isAtivo: true}, retorno.id)
 
       return retorno;
   }

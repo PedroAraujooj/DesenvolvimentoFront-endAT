@@ -227,7 +227,7 @@ export default function ListaRequisicoesADM({requisicoes = [], setIdEmEdicao}) {
                 paginationComponentOptions={opcoes}
                 noDataComponent="Cadastro Vazio"
                 defaultSortFieldId={3}
-            />
+                defaultSortAsc={false}            />
             <Dialog
                 open={openForm}
                 onClose={handleCloseForm}

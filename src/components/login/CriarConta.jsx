@@ -7,6 +7,8 @@ import {criarConta } from "../../infra/usuario";
 import { regexEmail } from "../../util/regex";
 import { useNavigate } from "react-router-dom";
 import { cepIsValido } from "../../infra/cep";
+import {useContext} from "react";
+import {UserContext} from "../../App.jsx";
 
 export default function CriarConta(props) {
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ export default function CriarConta(props) {
       let usuario = await criarConta(email, senha);
       if (usuario.id) {
         setUsuario(usuario);
-        navigate("/login");
+        navigate("/");
         alert(`SUCESSO, logado com ${usuario.email}`);
       } else {
         alert(`ERRO: ${usuario.erro}`);
@@ -63,7 +65,7 @@ export default function CriarConta(props) {
           borderRadius: "7px",
         }}
       >
-        <form onSubmit={handleSubmit(handleClick)}>
+        <form >
           <h2
             style={{
               textAlign: "left",
@@ -133,7 +135,7 @@ export default function CriarConta(props) {
           />
           <br />
           <br />
-          <Button variant="contained" size="medium" type="submit">
+          <Button variant="contained" size="medium" type="button" onClick={handleSubmit(handleClick)}>
             Criar Conta
           </Button>
         </form>

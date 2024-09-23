@@ -53,6 +53,7 @@ export default function ListaRequisicoes({ requisicoes = [], setIdEmEdicao }) {
     {
       name: "Horario",
       selector: (row) => row.dataHora,
+      sortable: true,
     },
     {
       name: "Descrição",
@@ -207,7 +208,8 @@ export default function ListaRequisicoes({ requisicoes = [], setIdEmEdicao }) {
         striped
         paginationComponentOptions={opcoes}
         noDataComponent="Cadastro Vazio"
-        defaultSortFieldId={1}
+        defaultSortFieldId={3}
+        defaultSortAsc={false}
       />
 
       <Dialog

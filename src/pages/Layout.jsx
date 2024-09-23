@@ -73,53 +73,79 @@ export default function Layout(props) {
                                 </Button>
                                 <Menu {...bindMenu(popupState)}>
                                     <MenuItem>
-                                        {" "}
                                         <Link to={"/"} onClick={popupState.close} className={classes.MenuItemStyle}>
                                             Início
                                         </Link>
                                     </MenuItem>
-                                    <MenuItem>
-                                        <Link to={"/fornecedores"} onClick={popupState.close}
-                                              className={classes.MenuItemStyle}>
-                                            Fornecedores
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Link to={"/contatos"} onClick={popupState.close}
-                                              className={classes.MenuItemStyle}>
-                                            Contatos
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <li>
-                                            <Link to={"/produtos"} onClick={popupState.close}
-                                                  className={classes.MenuItemStyle}>
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/fornecedores"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Fornecedores
+                                            </Link>
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/contatos"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Contatos
+                                            </Link>
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/produtos"} onClick={popupState.close} className={classes.MenuItemStyle}>
                                                 Produtos
                                             </Link>
-                                        </li>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Link to={"/cotacoes"} onClick={popupState.close}
-                                              className={classes.MenuItemStyle}>
-                                            Cotações
-                                        </Link>
-                                    </MenuItem>
-                                    {usuario.isADM?(
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
                                         <MenuItem>
-                                            <Link to={"/adm"} onClick={popupState.close}
-                                                  className={classes.MenuItemStyle}>
-                                                ADM
+                                            <Link to={"/cotacoes"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Cotações
                                             </Link>
-                                        </MenuItem>) : ""}
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/colaboradores"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Colaboradores
+                                            </Link>
+                                        </MenuItem>
+                                    )}
+                                    {!usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/requisicoes"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Suas Requisições
+                                            </Link>
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/requisicoesAdm"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Requisições
+                                            </Link>
+                                        </MenuItem>
+                                    )}
+                                    {usuario.isADM && (
+                                        <MenuItem>
+                                            <Link to={"/adm"} onClick={popupState.close} className={classes.MenuItemStyle}>
+                                                Criar conta de ADM
+                                            </Link>
+                                        </MenuItem>
+                                    )}
                                     <MenuItem>
                                         <p
                                             style={{textDecoration: "underline"}}
                                             className={classes.MenuItemStyle}
-                                            onClick={logout}
+                                            onClick={() => {
+                                                popupState.close();
+                                                logout();
+                                            }}
                                         >
                                             LOGOUT
                                         </p>
                                     </MenuItem>
+
                                 </Menu>
                             </React.Fragment>
                         )}
